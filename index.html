@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a365d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Class 2 Quiz NZ">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Class 2 Theory Practice Quiz (NZ)</title>
+<style>
+body { font-family: system-ui, Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 20px; background: #f5f7fa; }
+h1 { color: #1a365d; text-align: center; }
+.question { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.q-text { font-weight: 600; margin-bottom: 12px; font-size: 1.05em; }
+.options label { display: block; padding: 10px 12px; margin: 6px 0; background: #f8fafc; border-radius: 8px; cursor: pointer; border: 2px solid transparent; }
+.options label:hover { background: #e2e8f0; }
+.options input:checked + span { font-weight: 600; }
+.correct { background: #d1fae5 !important; border-color: #10b981 !important; }
+.wrong { background: #fee2e2 !important; border-color: #ef4444 !important; }
+.feedback { margin-top: 10px; padding: 10px; border-radius: 8px; font-size: 0.95em; }
+.result { text-align: center; padding: 30px; background: white; border-radius: 12px; margin-top: 20px; }
+.btn { background: #2563eb; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 1em; cursor: pointer; }
+.btn:hover { background: #1d4ed8; }
+.score { font-size: 2em; font-weight: bold; margin: 10px 0; }
+.pass { color: #059669; }
+.fail { color: #dc2626; }
+.note { font-size: 0.85em; color: #64748b; text-align: center; margin-top: 20px; }
+</style>
+</head>
+<body>
+<h1>Class 2 Learner Theory Practice Quiz</h1>
+<p style="text-align:center; color:#475569;">35 questions • Pass mark: 33/35 • Mix of general + Class 2 specialist</p>
+<div id="quiz"></div>
+<div id="result" class="result" style="display:none;"></div>
+<p class="note">Practice only. Always study the official NZ Road Code and Heavy Vehicle Road Code. Questions based on publicly available NZTA information.</p>
+
+<script>
+const questions = [
+  {
+    q: "You must turn your vehicle headlights on when visibility is less than:",
+    options: ["50 metres", "100 metres", "150 metres", "200 metres"],
+    answer: 1,
+    expl: "100 metres. Also required in fog and from 30 min after sunset to 30 min before sunrise."
+  },
+  {
+    q: "A vehicle should not send out visible smoke for more than:",
+    options: ["12 seconds", "10 seconds", "8 seconds", "5 seconds"],
+    answer: 1,
+    expl: "10 seconds."
+  },
+  {
+    q: "Which lights should you use when driving in fog?",
+    options: ["Park lights only", "Front and rear fog lights + dipped headlights", "High beam", "Hazard lights"],
+    answer: 1,
+    expl: "Dipped headlights plus front and rear fog lights if fitted."
+  },
+  {
+    q: "After finishing passing another vehicle, the least distance of clear road you must have in front of you is:",
+    options: ["50 metres", "100 metres", "150 metres", "200 metres"],
+    answer: 1,
+    expl: "100 metres."
+  },
+  {
+    q: "If anyone is hurt in a crash, you must tell a police officer as soon as possible but within:",
+    options: ["24 hours", "36 hours", "48 hours", "No need if injured people are okay"],
+    answer: 0,
+    expl: "Within 24 hours."
+  },
+  {
+    q: "What is the maximum height permitted for a vehicle including its load (Class 2)?",
+    options: ["3.7 m", "4.0 m", "4.25 m", "4.3 m"],
+    answer: 3,
+    expl: "4.3 metres is the general maximum height including load."
+  },
+  {
+    q: "What is the maximum width allowed for a vehicle (other than agricultural) including its load?",
+    options: ["2.1 m", "2.5 m", "2.55 m", "2.85 m"],
+    answer: 2,
+    expl: "2.55 metres."
+  },
+  {
+    q: "For a heavy rigid vehicle, the maximum rear overhang (including load) is the lesser of:",
+    options: ["3 m or 60% of wheelbase", "4 m or 60% of wheelbase", "4 m or 70% of wheelbase", "3.5 m or 50% of wheelbase"],
+    answer: 1,
+    expl: "4 metres or 60% of the wheelbase, whichever is less."
+  },
+  {
+    q: "What is the maximum overall length for a heavy rigid vehicle including its load (not towing)?",
+    options: ["11 m", "12 m", "12.5 m", "12.6 m"],
+    answer: 3,
+    expl: "12.6 metres for a heavy rigid vehicle not towing a trailer."
+  },
+  {
+    q: "What should you do after driving on an uneven surface?",
+    options: ["Check tyre pressures", "Have a rest", "Check your load", "Increase speed"],
+    answer: 2,
+    expl: "Check that your load is still secure."
+  },
+  {
+    q: "When checking your load, the most important thing to look for is:",
+    options: ["Load type", "Load security", "Load weight only", "Load colour"],
+    answer: 1,
+    expl: "Load security — that it cannot move or fall off."
+  },
+  {
+    q: "How much weight (sideways) must load restraint systems be able to withstand?",
+    options: ["Full weight of the load", "Half the weight of the load", "One-third the weight", "Twice the weight"],
+    answer: 1,
+    expl: "At least half the weight of the load sideways and rearwards."
+  },
+  {
+    q: "If a rigid load is against a headboard, the combined strength of the lashings over the load must be at least:",
+    options: ["Half the load weight", "The full load weight", "Twice the load weight", "One and a half times"],
+    answer: 1,
+    expl: "Equal to the weight of the load (100%)."
+  },
+  {
+    q: "A 10-tonne load on a rigid truck with no headboard is secured by two tie-downs. What must their combined strength be?",
+    options: ["5 tonnes", "10 tonnes", "15 tonnes", "20 tonnes"],
+    answer: 3,
+    expl: "20 tonnes (twice the load weight when not against a headboard)."
+  },
+  {
+    q: "Whose responsibility is it to ensure a permit is carried for overweight or over-dimensional loads?",
+    options: ["The vehicle owner only", "The driver", "The loader", "The company manager"],
+    answer: 1,
+    expl: "The driver must ensure the permit is carried."
+  },
+  {
+    q: "A heavy motor vehicle has a gross vehicle mass (GVM) exceeding:",
+    options: ["3,500 kg", "4,500 kg", "6,000 kg", "8,000 kg"],
+    answer: 1,
+    expl: "4,500 kg (definition of heavy motor vehicle)."
+  },
+  {
+    q: "What is the lowest class of licence required to drive a rigid vehicle with a gross laden weight of 12,000 kg?",
+    options: ["Class 1", "Class 2", "Class 3", "Class 4"],
+    answer: 1,
+    expl: "Class 2 (medium rigid vehicles)."
+  },
+  {
+    q: "When two vehicles face Give Way signs, which one gives way?",
+    options: ["The one that arrived last", "The vehicle that is not turning", "The vehicle that is turning", "The smaller vehicle"],
+    answer: 2,
+    expl: "The vehicle that is turning must give way to the one going straight."
+  },
+  {
+    q: "At a railway level crossing, if the red lights continue to flash after the train has passed, you should:",
+    options: ["Cross immediately if clear", "Wait until the lights stop flashing", "Wait 15 seconds then go", "Sound the horn and proceed"],
+    answer: 1,
+    expl: "Wait until the lights stop flashing, then check both ways before crossing."
+  },
+  {
+    q: "What must you do when you hear a siren or see red flashing lights from an ambulance or fire engine?",
+    options: ["Speed up", "Stop immediately where you are", "Slow down, pull over and stop if necessary", "Ignore if in a hurry"],
+    answer: 2,
+    expl: "Slow down and pull over to the left to allow them to pass. Stop if necessary."
+  },
+  {
+    q: "When driving at night on a road with lanes, you must be able to stop within:",
+    options: ["Half the length of clear road you can see", "The full length of clear road you can see", "200 metres", "100 metres always"],
+    answer: 1,
+    expl: "The full length of clear road you can see ahead (half the length only on roads without lanes)."
+  },
+  {
+    q: "How long should you signal before making a turn or lane change?",
+    options: ["1 second", "2 seconds", "3 seconds", "Only if other vehicles are nearby"],
+    answer: 2,
+    expl: "At least 3 seconds."
+  },
+  {
+    q: "What is the speed limit when passing a school bus that has stopped to let children on or off?",
+    options: ["20 km/h", "30 km/h", "40 km/h", "50 km/h"],
+    answer: 0,
+    expl: "20 km/h."
+  },
+  {
+    q: "Yellow flashing lights at traffic signals mean:",
+    options: ["Emergency vehicles coming", "The lights are faulty — apply Give Way rules", "Stop completely", "Proceed at normal speed"],
+    answer: 1,
+    expl: "The signals are faulty. Treat as a Give Way intersection."
+  },
+  {
+    q: "For the purpose of the Give Way rule, an entrance way into a public car park is treated as:",
+    options: ["A one-way street", "An intersection", "A private driveway with no rules", "A motorway on-ramp"],
+    answer: 1,
+    expl: "It is treated as an intersection."
+  },
+  {
+    q: "How many standard drinks can a person under 20 years old have before driving?",
+    options: ["One", "Two", "None (zero alcohol limit)", "Three"],
+    answer: 2,
+    expl: "Zero. Drivers under 20 have a zero alcohol limit."
+  },
+  {
+    q: "What is the maximum weight allowed on a single standard-tyred axle (if manufacturer ratings allow)?",
+    options: ["5,400 kg", "6,000 kg", "7,200 kg", "8,200 kg"],
+    answer: 0,
+    expl: "Typically 5,400 kg for a single standard-tyred axle (confirm current Road Code)."
+  },
+  {
+    q: "Uncovered loose bulk loads must not be higher than:",
+    options: ["Level with the sides", "100 mm below the side of the body", "200 mm below the side", "50 mm above the sides"],
+    answer: 1,
+    expl: "At least 100 mm below the side of the vehicle body."
+  },
+  {
+    q: "Anchor points for lashings must have a strength of at least:",
+    options: ["Equal to the lashing", "Twice the rated strength of the lashing", "Half the load weight", "The GVM of the vehicle"],
+    answer: 1,
+    expl: "At least twice the rated strength of the lashing attached to them."
+  },
+  {
+    q: "What does 'tare weight' mean?",
+    options: ["Maximum legal weight", "Weight of the vehicle with no load", "Weight of the load only", "Combined vehicle and trailer weight"],
+    answer: 1,
+    expl: "The weight of the vehicle with no load (unladen weight)."
+  },
+  {
+    q: "When approaching a one-lane bridge, you should:",
+    options: ["Always go if you reach it first", "Slow down, be prepared to stop, and only proceed if clear", "Flash lights and continue", "Sound the horn continuously"],
+    answer: 1,
+    expl: "Slow down, be prepared to stop, and only proceed if the bridge is clear of oncoming traffic."
+  },
+  {
+    q: "Police officer directions at an intersection:",
+    options: ["Must be followed even if they contradict traffic lights or signs", "Only apply if lights are not working", "Are suggestions only", "Only apply to heavy vehicles"],
+    answer: 0,
+    expl: "Police directions override traffic lights, signs and Give Way rules."
+  },
+  {
+    q: "The four-second following distance rule should be used when:",
+    options: ["Driving at night only", "The road is wet, frosty, or you are towing", "Always, regardless of conditions", "Only on motorways"],
+    answer: 1,
+    expl: "In wet or frosty conditions, or when towing (double the normal two-second rule)."
+  },
+  {
+    q: "What is the purpose of the two-second rule?",
+    options: ["To allow time to overtake", "To give enough time to stop if the vehicle in front stops suddenly", "To measure fuel efficiency", "To check mirror use"],
+    answer: 1,
+    expl: "It provides enough time and distance to stop safely if the vehicle ahead brakes suddenly."
+  },
+  {
+    q: "Before turning right on a straight road you must:",
+    options: ["Signal for at least 3 seconds, move towards the centre line, and give way to oncoming traffic", "Only signal if someone is behind you", "Stop completely first", "Use hazard lights"],
+    answer: 0,
+    expl: "Signal ≥3 seconds, move toward the centre line, and give way to vehicles coming toward you."
+  }
+];
+
+// Shuffle questions for variety
+questions.sort(() => Math.random() - 0.5);
+
+let userAnswers = new Array(questions.length).fill(null);
+let submitted = false;
+
+function renderQuiz() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+  questions.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.innerHTML = `
+      <div class="q-text">${i+1}. ${item.q}</div>
+      <div class="options" id="opts-${i}">
+        ${item.options.map((opt, j) => `
+          <label>
+            <input type="radio" name="q${i}" value="${j}" onchange="userAnswers[${i}]=${j}">
+            <span>${opt}</span>
+          </label>
+        `).join('')}
+      </div>
+      <div class="feedback" id="fb-${i}" style="display:none;"></div>
+    `;
+    quizDiv.appendChild(div);
+  });
+  quizDiv.innerHTML += `<div style="text-align:center; margin-top:30px;"><button class="btn" onclick="submitQuiz()">Submit Answers</button></div>`;
+}
+
+function submitQuiz() {
+  if (submitted) return;
+  submitted = true;
+  let score = 0;
+  questions.forEach((item, i) => {
+    const opts = document.getElementById(`opts-${i}`);
+    const labels = opts.querySelectorAll('label');
+    const fb = document.getElementById(`fb-${i}`);
+    const chosen = userAnswers[i];
+    if (chosen === item.answer) {
+      score++;
+      labels[chosen].classList.add('correct');
+      fb.innerHTML = `<strong>Correct!</strong> ${item.expl}`;
+      fb.style.background = '#d1fae5';
+    } else {
+      if (chosen !== null) labels[chosen].classList.add('wrong');
+      labels[item.answer].classList.add('correct');
+      fb.innerHTML = `<strong>Incorrect.</strong> Correct answer: ${item.options[item.answer]}. ${item.expl}`;
+      fb.style.background = '#fee2e2';
+    }
+    fb.style.display = 'block';
+    // Disable further changes
+    opts.querySelectorAll('input').forEach(inp => inp.disabled = true);
+  });
+
+  const resultDiv = document.getElementById('result');
+  const passed = score >= 33;
+  resultDiv.innerHTML = `
+    <h2>Your Result</h2>
+    <div class="score ${passed ? 'pass' : 'fail'}">${score} / 35</div>
+    <p>${passed ? '✅ Pass! (Need 33 or more)' : '❌ Not yet — keep practising (need 33/35)'}</p>
+    <button class="btn" onclick="location.reload()">Try Again (new order)</button>
+  `;
+  resultDiv.style.display = 'block';
+  resultDiv.scrollIntoView({behavior:'smooth'});
+}
+
+renderQuiz();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function (err) {
+      console.warn('Service worker registration failed', err);
+    });
+  });
+}
+</script>
+</body>
+</html>
