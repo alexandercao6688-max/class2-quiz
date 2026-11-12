@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a365d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Class 2 练习题">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Class 2 理论练习题（中英双语）| Class 2 Theory Practice Quiz (NZ)</title>
+<style>
+body { font-family: system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 20px; background: #f5f7fa; }
+h1 { color: #1a365d; text-align: center; }
+h1 .zh { display: block; font-size: 0.8em; margin-top: 6px; }
+.zh { color: #334155; }
+.sub { text-align:center; color:#475569; }
+.sub .zh, .note .zh { display: block; color: inherit; }
+.lang-link { text-align: center; font-size: 0.9em; }
+.lang-link a { color: #2563eb; }
+.question { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.q-text { font-weight: 600; margin-bottom: 12px; font-size: 1.05em; }
+.q-text .zh { display: block; font-weight: 600; margin-top: 4px; }
+.options label { display: block; padding: 10px 12px; margin: 6px 0; background: #f8fafc; border-radius: 8px; cursor: pointer; border: 2px solid transparent; }
+.options label:hover { background: #e2e8f0; }
+.options input:checked + span { font-weight: 600; }
+.options .zh { display: block; margin-left: 24px; font-size: 0.95em; }
+.correct { background: #d1fae5 !important; border-color: #10b981 !important; }
+.wrong { background: #fee2e2 !important; border-color: #ef4444 !important; }
+.feedback { margin-top: 10px; padding: 10px; border-radius: 8px; font-size: 0.95em; }
+.feedback .zh { display: block; margin-top: 4px; }
+.result { text-align: center; padding: 30px; background: white; border-radius: 12px; margin-top: 20px; }
+.result .zh { display: block; }
+.btn { background: #2563eb; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 1em; cursor: pointer; }
+.btn:hover { background: #1d4ed8; }
+.btn .zh { color: white; display: block; font-size: 0.95em; }
+.score { font-size: 2em; font-weight: bold; margin: 10px 0; }
+.pass { color: #059669; }
+.fail { color: #dc2626; }
+.note { font-size: 0.85em; color: #64748b; text-align: center; margin-top: 20px; }
+</style>
+</head>
+<body>
+<h1>Class 2 Learner Theory Practice Quiz<span class="zh">2 类（Class 2）学习驾照理论练习题</span></h1>
+<p class="sub">35 questions • Pass mark: 33/35 • Mix of general + Class 2 specialist<span class="zh">共 35 题 • 及格线：35 题答对 33 题 • 包括通用交规题和 Class 2 重型车专项题</span></p>
+<p class="lang-link"><a href="index.html">English only / 纯英文版</a></p>
+<div id="quiz"></div>
+<div id="result" class="result" style="display:none;"></div>
+<p class="note">Practice only. Always study the official NZ Road Code and Heavy Vehicle Road Code. Questions based on publicly available NZTA information.<span class="zh">仅供练习。请务必学习新西兰官方的《Road Code》（道路规则）和《Heavy Vehicle Road Code》（重型车辆道路规则）。题目根据 NZTA（新西兰交通局）公开资料整理。</span></p>
+
+<script>
+const questions = [
+ {
+  "q": [
+   "You must turn your vehicle headlights on when visibility is less than:",
+   "能见度低于多少时，必须打开车辆前大灯？"
+  ],
+  "options": [
+   [
+    "50 metres",
+    "50 米"
+   ],
+   [
+    "100 metres",
+    "100 米"
+   ],
+   [
+    "150 metres",
+    "150 米"
+   ],
+   [
+    "200 metres",
+    "200 米"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "100 metres. Also required in fog and from 30 min after sunset to 30 min before sunrise.",
+   "100 米。在雾天，以及日落后 30 分钟至日出前 30 分钟，也必须开大灯。"
+  ]
+ },
+ {
+  "q": [
+   "A vehicle should not send out visible smoke for more than:",
+   "车辆排放可见烟雾的时间不得超过："
+  ],
+  "options": [
+   [
+    "12 seconds",
+    "12 秒"
+   ],
+   [
+    "10 seconds",
+    "10 秒"
+   ],
+   [
+    "8 seconds",
+    "8 秒"
+   ],
+   [
+    "5 seconds",
+    "5 秒"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "10 seconds.",
+   "10 秒。"
+  ]
+ },
+ {
+  "q": [
+   "Which lights should you use when driving in fog?",
+   "在雾中行驶时应使用哪些灯？"
+  ],
+  "options": [
+   [
+    "Park lights only",
+    "只开示宽灯（停车灯）"
+   ],
+   [
+    "Front and rear fog lights + dipped headlights",
+    "前、后雾灯 + 近光灯"
+   ],
+   [
+    "High beam",
+    "远光灯"
+   ],
+   [
+    "Hazard lights",
+    "危险警示灯（双闪）"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "Dipped headlights plus front and rear fog lights if fitted.",
+   "开近光灯；如车上装有前、后雾灯，也一并打开。"
+  ]
+ },
+ {
+  "q": [
+   "After finishing passing another vehicle, the least distance of clear road you must have in front of you is:",
+   "超车完成后，你前方至少必须有多长的畅通道路？"
+  ],
+  "options": [
+   [
+    "50 metres",
+    "50 米"
+   ],
+   [
+    "100 metres",
+    "100 米"
+   ],
+   [
+    "150 metres",
+    "150 米"
+   ],
+   [
+    "200 metres",
+    "200 米"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "100 metres.",
+   "100 米。"
+  ]
+ },
+ {
+  "q": [
+   "If anyone is hurt in a crash, you must tell a police officer as soon as possible but within:",
+   "如果车祸中有人受伤，你必须尽快报告警察，最迟不超过："
+  ],
+  "options": [
+   [
+    "24 hours",
+    "24 小时"
+   ],
+   [
+    "36 hours",
+    "36 小时"
+   ],
+   [
+    "48 hours",
+    "48 小时"
+   ],
+   [
+    "No need if injured people are okay",
+    "如果伤者没事就不用报告"
+   ]
+  ],
+  "answer": 0,
+  "expl": [
+   "Within 24 hours.",
+   "24 小时内。"
+  ]
+ },
+ {
+  "q": [
+   "What is the maximum height permitted for a vehicle including its load (Class 2)?",
+   "车辆连同所载货物的最大允许高度是多少（2 类驾照）？"
+  ],
+  "options": [
+   [
+    "3.7 m",
+    "3.7 米"
+   ],
+   [
+    "4.0 m",
+    "4.0 米"
+   ],
+   [
+    "4.25 m",
+    "4.25 米"
+   ],
+   [
+    "4.3 m",
+    "4.3 米"
+   ]
+  ],
+  "answer": 3,
+  "expl": [
+   "4.3 metres is the general maximum height including load.",
+   "含货物在内的一般最大高度是 4.3 米。"
+  ]
+ },
+ {
+  "q": [
+   "What is the maximum width allowed for a vehicle (other than agricultural) including its load?",
+   "车辆（农用车辆除外）连同所载货物的最大允许宽度是多少？"
+  ],
+  "options": [
+   [
+    "2.1 m",
+    "2.1 米"
+   ],
+   [
+    "2.5 m",
+    "2.5 米"
+   ],
+   [
+    "2.55 m",
+    "2.55 米"
+   ],
+   [
+    "2.85 m",
+    "2.85 米"
+   ]
+  ],
+  "answer": 2,
+  "expl": [
+   "2.55 metres.",
+   "2.55 米。"
+  ]
+ },
+ {
+  "q": [
+   "For a heavy rigid vehicle, the maximum rear overhang (including load) is the lesser of:",
+   "重型刚性车辆（含货物）的最大后悬，取以下两者中较小的一个："
+  ],
+  "options": [
+   [
+    "3 m or 60% of wheelbase",
+    "3 米或轴距的 60%"
+   ],
+   [
+    "4 m or 60% of wheelbase",
+    "4 米或轴距的 60%"
+   ],
+   [
+    "4 m or 70% of wheelbase",
+    "4 米或轴距的 70%"
+   ],
+   [
+    "3.5 m or 50% of wheelbase",
+    "3.5 米或轴距的 50%"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "4 metres or 60% of the wheelbase, whichever is less.",
+   "4 米或轴距的 60%，以较小者为准。"
+  ]
+ },
+ {
+  "q": [
+   "What is the maximum overall length for a heavy rigid vehicle including its load (not towing)?",
+   "重型刚性车辆（不拖挂车）连同货物的最大总长度是多少？"
+  ],
+  "options": [
+   [
+    "11 m",
+    "11 米"
+   ],
+   [
+    "12 m",
+    "12 米"
+   ],
+   [
+    "12.5 m",
+    "12.5 米"
+   ],
+   [
+    "12.6 m",
+    "12.6 米"
+   ]
+  ],
+  "answer": 3,
+  "expl": [
+   "12.6 metres for a heavy rigid vehicle not towing a trailer.",
+   "不拖挂车的重型刚性车辆最长 12.6 米。"
+  ]
+ },
+ {
+  "q": [
+   "What should you do after driving on an uneven surface?",
+   "在不平的路面上行驶之后，你应该做什么？"
+  ],
+  "options": [
+   [
+    "Check tyre pressures",
+    "检查轮胎气压"
+   ],
+   [
+    "Have a rest",
+    "休息一下"
+   ],
+   [
+    "Check your load",
+    "检查货物"
+   ],
+   [
+    "Increase speed",
+    "加速"
+   ]
+  ],
+  "answer": 2,
+  "expl": [
+   "Check that your load is still secure.",
+   "检查货物是否仍然固定牢靠。"
+  ]
+ },
+ {
+  "q": [
+   "When checking your load, the most important thing to look for is:",
+   "检查货物时，最需要注意的是："
+  ],
+  "options": [
+   [
+    "Load type",
+    "货物种类"
+   ],
+   [
+    "Load security",
+    "货物是否固定牢靠"
+   ],
+   [
+    "Load weight only",
+    "只看货物重量"
+   ],
+   [
+    "Load colour",
+    "货物颜色"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "Load security — that it cannot move or fall off.",
+   "货物固定——确保货物不会移动或掉落。"
+  ]
+ },
+ {
+  "q": [
+   "How much weight (sideways) must load restraint systems be able to withstand?",
+   "货物固定（绑扎）系统在侧向必须能承受多大的重量？"
+  ],
+  "options": [
+   [
+    "Full weight of the load",
+    "货物的全部重量"
+   ],
+   [
+    "Half the weight of the load",
+    "货物重量的一半"
+   ],
+   [
+    "One-third the weight",
+    "货物重量的三分之一"
+   ],
+   [
+    "Twice the weight",
+    "货物重量的两倍"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "At least half the weight of the load sideways and rearwards.",
+   "侧向和向后至少能承受货物重量的一半。"
+  ]
+ },
+ {
+  "q": [
+   "If a rigid load is against a headboard, the combined strength of the lashings over the load must be at least:",
+   "如果刚性货物紧靠车头挡板，压在货物上的绑带总强度至少必须是："
+  ],
+  "options": [
+   [
+    "Half the load weight",
+    "货物重量的一半"
+   ],
+   [
+    "The full load weight",
+    "货物的全部重量"
+   ],
+   [
+    "Twice the load weight",
+    "货物重量的两倍"
+   ],
+   [
+    "One and a half times",
+    "货物重量的 1.5 倍"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "Equal to the weight of the load (100%).",
+   "等于货物的重量（100%）。"
+  ]
+ },
+ {
+  "q": [
+   "A 10-tonne load on a rigid truck with no headboard is secured by two tie-downs. What must their combined strength be?",
+   "一辆没有车头挡板的刚性卡车装有 10 吨货物，用两条绑带固定。两条绑带的总强度必须是多少？"
+  ],
+  "options": [
+   [
+    "5 tonnes",
+    "5 吨"
+   ],
+   [
+    "10 tonnes",
+    "10 吨"
+   ],
+   [
+    "15 tonnes",
+    "15 吨"
+   ],
+   [
+    "20 tonnes",
+    "20 吨"
+   ]
+  ],
+  "answer": 3,
+  "expl": [
+   "20 tonnes (twice the load weight when not against a headboard).",
+   "20 吨（货物没有靠住挡板时，须为货物重量的两倍）。"
+  ]
+ },
+ {
+  "q": [
+   "Whose responsibility is it to ensure a permit is carried for overweight or over-dimensional loads?",
+   "运输超重或超尺寸货物时，确保随车携带许可证是谁的责任？"
+  ],
+  "options": [
+   [
+    "The vehicle owner only",
+    "只是车主"
+   ],
+   [
+    "The driver",
+    "司机"
+   ],
+   [
+    "The loader",
+    "装货人"
+   ],
+   [
+    "The company manager",
+    "公司经理"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "The driver must ensure the permit is carried.",
+   "司机必须确保随车携带许可证。"
+  ]
+ },
+ {
+  "q": [
+   "A heavy motor vehicle has a gross vehicle mass (GVM) exceeding:",
+   "重型机动车是指车辆总质量（GVM）超过多少的车辆？"
+  ],
+  "options": [
+   [
+    "3,500 kg",
+    "3,500 公斤"
+   ],
+   [
+    "4,500 kg",
+    "4,500 公斤"
+   ],
+   [
+    "6,000 kg",
+    "6,000 公斤"
+   ],
+   [
+    "8,000 kg",
+    "8,000 公斤"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "4,500 kg (definition of heavy motor vehicle).",
+   "4,500 公斤（重型机动车的定义）。"
+  ]
+ },
+ {
+  "q": [
+   "What is the lowest class of licence required to drive a rigid vehicle with a gross laden weight of 12,000 kg?",
+   "驾驶满载总重 12,000 公斤的刚性车辆，最低需要哪一类驾照？"
+  ],
+  "options": [
+   [
+    "Class 1",
+    "1 类（Class 1）"
+   ],
+   [
+    "Class 2",
+    "2 类（Class 2）"
+   ],
+   [
+    "Class 3",
+    "3 类（Class 3）"
+   ],
+   [
+    "Class 4",
+    "4 类（Class 4）"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "Class 2 (medium rigid vehicles).",
+   "2 类驾照（中型刚性车辆）。"
+  ]
+ },
+ {
+  "q": [
+   "When two vehicles face Give Way signs, which one gives way?",
+   "两辆车都面对“让行”（Give Way）标志时，哪辆车要让行？"
+  ],
+  "options": [
+   [
+    "The one that arrived last",
+    "后到的车"
+   ],
+   [
+    "The vehicle that is not turning",
+    "不转弯的车"
+   ],
+   [
+    "The vehicle that is turning",
+    "转弯的车"
+   ],
+   [
+    "The smaller vehicle",
+    "较小的车"
+   ]
+  ],
+  "answer": 2,
+  "expl": [
+   "The vehicle that is turning must give way to the one going straight.",
+   "转弯的车必须让直行的车先行。"
+  ]
+ },
+ {
+  "q": [
+   "At a railway level crossing, if the red lights continue to flash after the train has passed, you should:",
+   "在铁路平交道口，如果火车开过后红灯仍在闪烁，你应该："
+  ],
+  "options": [
+   [
+    "Cross immediately if clear",
+    "如果没车就马上通过"
+   ],
+   [
+    "Wait until the lights stop flashing",
+    "等到红灯停止闪烁"
+   ],
+   [
+    "Wait 15 seconds then go",
+    "等 15 秒后通过"
+   ],
+   [
+    "Sound the horn and proceed",
+    "按喇叭后通过"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "Wait until the lights stop flashing, then check both ways before crossing.",
+   "等红灯停止闪烁，再看清两边确认安全后通过。"
+  ]
+ },
+ {
+  "q": [
+   "What must you do when you hear a siren or see red flashing lights from an ambulance or fire engine?",
+   "听到救护车或消防车的警笛声，或看到它们的红色闪灯时，你必须怎么做？"
+  ],
+  "options": [
+   [
+    "Speed up",
+    "加速"
+   ],
+   [
+    "Stop immediately where you are",
+    "在原地立即停车"
+   ],
+   [
+    "Slow down, pull over and stop if necessary",
+    "减速、靠边，必要时停车"
+   ],
+   [
+    "Ignore if in a hurry",
+    "赶时间的话可以不理"
+   ]
+  ],
+  "answer": 2,
+  "expl": [
+   "Slow down and pull over to the left to allow them to pass. Stop if necessary.",
+   "减速并靠左边让它们通过，必要时停车。"
+  ]
+ },
+ {
+  "q": [
+   "When driving at night on a road with lanes, you must be able to stop within:",
+   "夜间在有车道线的道路上行驶时，你必须能在以下距离内停住车："
+  ],
+  "options": [
+   [
+    "Half the length of clear road you can see",
+    "你能看到的畅通道路长度的一半"
+   ],
+   [
+    "The full length of clear road you can see",
+    "你能看到的畅通道路的全部长度"
+   ],
+   [
+    "200 metres",
+    "200 米"
+   ],
+   [
+    "100 metres always",
+    "始终是 100 米"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "The full length of clear road you can see ahead (half the length only on roads without lanes).",
+   "你能看到的前方畅通道路的全部长度（只有在没有车道线的道路上才是一半）。"
+  ]
+ },
+ {
+  "q": [
+   "How long should you signal before making a turn or lane change?",
+   "转弯或变道前，应该提前多久打转向灯？"
+  ],
+  "options": [
+   [
+    "1 second",
+    "1 秒"
+   ],
+   [
+    "2 seconds",
+    "2 秒"
+   ],
+   [
+    "3 seconds",
+    "3 秒"
+   ],
+   [
+    "Only if other vehicles are nearby",
+    "只有附近有其他车辆时才打"
+   ]
+  ],
+  "answer": 2,
+  "expl": [
+   "At least 3 seconds.",
+   "至少 3 秒。"
+  ]
+ },
+ {
+  "q": [
+   "What is the speed limit when passing a school bus that has stopped to let children on or off?",
+   "经过正在停车让学生上下车的校车时，限速是多少？"
+  ],
+  "options": [
+   [
+    "20 km/h",
+    "20 公里/小时"
+   ],
+   [
+    "30 km/h",
+    "30 公里/小时"
+   ],
+   [
+    "40 km/h",
+    "40 公里/小时"
+   ],
+   [
+    "50 km/h",
+    "50 公里/小时"
+   ]
+  ],
+  "answer": 0,
+  "expl": [
+   "20 km/h.",
+   "20 公里/小时。"
+  ]
+ },
+ {
+  "q": [
+   "Yellow flashing lights at traffic signals mean:",
+   "交通信号灯黄灯闪烁表示："
+  ],
+  "options": [
+   [
+    "Emergency vehicles coming",
+    "有紧急车辆驶来"
+   ],
+   [
+    "The lights are faulty — apply Give Way rules",
+    "信号灯故障——按让行规则行驶"
+   ],
+   [
+    "Stop completely",
+    "必须完全停车"
+   ],
+   [
+    "Proceed at normal speed",
+    "按正常速度通过"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "The signals are faulty. Treat as a Give Way intersection.",
+   "信号灯出了故障，按让行路口处理。"
+  ]
+ },
+ {
+  "q": [
+   "For the purpose of the Give Way rule, an entrance way into a public car park is treated as:",
+   "在让行规则中，公共停车场的入口被视为："
+  ],
+  "options": [
+   [
+    "A one-way street",
+    "单行道"
+   ],
+   [
+    "An intersection",
+    "路口（交叉路口）"
+   ],
+   [
+    "A private driveway with no rules",
+    "没有规则的私人车道"
+   ],
+   [
+    "A motorway on-ramp",
+    "高速公路入口匝道"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "It is treated as an intersection.",
+   "被视为路口。"
+  ]
+ },
+ {
+  "q": [
+   "How many standard drinks can a person under 20 years old have before driving?",
+   "未满 20 岁的人开车前可以喝多少标准杯的酒？"
+  ],
+  "options": [
+   [
+    "One",
+    "一杯"
+   ],
+   [
+    "Two",
+    "两杯"
+   ],
+   [
+    "None (zero alcohol limit)",
+    "一杯都不行（零酒精限制）"
+   ],
+   [
+    "Three",
+    "三杯"
+   ]
+  ],
+  "answer": 2,
+  "expl": [
+   "Zero. Drivers under 20 have a zero alcohol limit.",
+   "零。未满 20 岁的司机实行零酒精限制。"
+  ]
+ },
+ {
+  "q": [
+   "What is the maximum weight allowed on a single standard-tyred axle (if manufacturer ratings allow)?",
+   "单轴、标准轮胎的车轴（在制造商额定值允许的情况下）最大允许重量是多少？"
+  ],
+  "options": [
+   [
+    "5,400 kg",
+    "5,400 公斤"
+   ],
+   [
+    "6,000 kg",
+    "6,000 公斤"
+   ],
+   [
+    "7,200 kg",
+    "7,200 公斤"
+   ],
+   [
+    "8,200 kg",
+    "8,200 公斤"
+   ]
+  ],
+  "answer": 0,
+  "expl": [
+   "Typically 5,400 kg for a single standard-tyred axle (confirm current Road Code).",
+   "单轴标准轮胎车轴一般为 5,400 公斤（请以最新版 Road Code 为准）。"
+  ]
+ },
+ {
+  "q": [
+   "Uncovered loose bulk loads must not be higher than:",
+   "没有遮盖的散装货物，高度不得超过："
+  ],
+  "options": [
+   [
+    "Level with the sides",
+    "与车厢侧板齐平"
+   ],
+   [
+    "100 mm below the side of the body",
+    "比车厢侧板低 100 毫米"
+   ],
+   [
+    "200 mm below the side",
+    "比侧板低 200 毫米"
+   ],
+   [
+    "50 mm above the sides",
+    "比侧板高 50 毫米"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "At least 100 mm below the side of the vehicle body.",
+   "至少要比车厢侧板低 100 毫米。"
+  ]
+ },
+ {
+  "q": [
+   "Anchor points for lashings must have a strength of at least:",
+   "绑带的固定点（锚点）强度至少必须是："
+  ],
+  "options": [
+   [
+    "Equal to the lashing",
+    "与绑带强度相同"
+   ],
+   [
+    "Twice the rated strength of the lashing",
+    "绑带额定强度的两倍"
+   ],
+   [
+    "Half the load weight",
+    "货物重量的一半"
+   ],
+   [
+    "The GVM of the vehicle",
+    "车辆的总质量（GVM）"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "At least twice the rated strength of the lashing attached to them.",
+   "至少是所连接绑带额定强度的两倍。"
+  ]
+ },
+ {
+  "q": [
+   "What does 'tare weight' mean?",
+   "“tare weight”（空车重量 / 皮重）是什么意思？"
+  ],
+  "options": [
+   [
+    "Maximum legal weight",
+    "最大合法重量"
+   ],
+   [
+    "Weight of the vehicle with no load",
+    "车辆不装货时的重量"
+   ],
+   [
+    "Weight of the load only",
+    "只算货物的重量"
+   ],
+   [
+    "Combined vehicle and trailer weight",
+    "车辆和挂车的合计重量"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "The weight of the vehicle with no load (unladen weight).",
+   "车辆不装货时的重量（空载重量）。"
+  ]
+ },
+ {
+  "q": [
+   "When approaching a one-lane bridge, you should:",
+   "接近单车道桥时，你应该："
+  ],
+  "options": [
+   [
+    "Always go if you reach it first",
+    "只要先到就可以过"
+   ],
+   [
+    "Slow down, be prepared to stop, and only proceed if clear",
+    "减速，准备停车，确认畅通后再通过"
+   ],
+   [
+    "Flash lights and continue",
+    "闪灯后继续开"
+   ],
+   [
+    "Sound the horn continuously",
+    "一直按喇叭"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "Slow down, be prepared to stop, and only proceed if the bridge is clear of oncoming traffic.",
+   "减速，准备停车，确认桥上没有对面来车后再通过。"
+  ]
+ },
+ {
+  "q": [
+   "Police officer directions at an intersection:",
+   "警察在路口的交通指挥："
+  ],
+  "options": [
+   [
+    "Must be followed even if they contradict traffic lights or signs",
+    "必须服从，即使与交通灯或标志不一致"
+   ],
+   [
+    "Only apply if lights are not working",
+    "只在信号灯不工作时才适用"
+   ],
+   [
+    "Are suggestions only",
+    "只是建议"
+   ],
+   [
+    "Only apply to heavy vehicles",
+    "只适用于重型车辆"
+   ]
+  ],
+  "answer": 0,
+  "expl": [
+   "Police directions override traffic lights, signs and Give Way rules.",
+   "警察的指挥优先于交通灯、标志和让行规则。"
+  ]
+ },
+ {
+  "q": [
+   "The four-second following distance rule should be used when:",
+   "什么时候应该使用“四秒跟车距离”规则？"
+  ],
+  "options": [
+   [
+    "Driving at night only",
+    "只在夜间"
+   ],
+   [
+    "The road is wet, frosty, or you are towing",
+    "路面湿滑、结霜，或在拖挂时"
+   ],
+   [
+    "Always, regardless of conditions",
+    "任何情况下都用"
+   ],
+   [
+    "Only on motorways",
+    "只在高速公路上"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "In wet or frosty conditions, or when towing (double the normal two-second rule).",
+   "在路面潮湿或结霜时，或拖挂时使用（是正常“两秒规则”的两倍）。"
+  ]
+ },
+ {
+  "q": [
+   "What is the purpose of the two-second rule?",
+   "“两秒规则”的目的是什么？"
+  ],
+  "options": [
+   [
+    "To allow time to overtake",
+    "留出超车时间"
+   ],
+   [
+    "To give enough time to stop if the vehicle in front stops suddenly",
+    "前车突然停下时，有足够时间停车"
+   ],
+   [
+    "To measure fuel efficiency",
+    "计算油耗"
+   ],
+   [
+    "To check mirror use",
+    "检查后视镜的使用"
+   ]
+  ],
+  "answer": 1,
+  "expl": [
+   "It provides enough time and distance to stop safely if the vehicle ahead brakes suddenly.",
+   "前车突然刹车时，给你足够的时间和距离安全停车。"
+  ]
+ },
+ {
+  "q": [
+   "Before turning right on a straight road you must:",
+   "在直路上右转之前，你必须："
+  ],
+  "options": [
+   [
+    "Signal for at least 3 seconds, move towards the centre line, and give way to oncoming traffic",
+    "打转向灯至少 3 秒，向中线靠拢，并让对面来车先行"
+   ],
+   [
+    "Only signal if someone is behind you",
+    "只有后面有车时才打灯"
+   ],
+   [
+    "Stop completely first",
+    "先完全停车"
+   ],
+   [
+    "Use hazard lights",
+    "打开双闪"
+   ]
+  ],
+  "answer": 0,
+  "expl": [
+   "Signal ≥3 seconds, move toward the centre line, and give way to vehicles coming toward you.",
+   "打灯至少 3 秒，向中线靠拢，并让对面驶来的车辆先行。"
+  ]
+ }
+];
+
+function bi(pair) {
+  return `${pair[0]}<span class="zh">${pair[1]}</span>`;
+}
+
+// Shuffle questions for variety
+questions.sort(() => Math.random() - 0.5);
+
+let userAnswers = new Array(questions.length).fill(null);
+let submitted = false;
+
+function renderQuiz() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+  questions.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'question';
+    div.innerHTML = `
+      <div class="q-text">${i+1}. ${item.q[0]}<span class="zh">${item.q[1]}</span></div>
+      <div class="options" id="opts-${i}">
+        ${item.options.map((opt, j) => `
+          <label>
+            <input type="radio" name="q${i}" value="${j}" onchange="userAnswers[${i}]=${j}">
+            <span>${opt[0]}</span>
+            <span class="zh">${opt[1]}</span>
+          </label>
+        `).join('')}
+      </div>
+      <div class="feedback" id="fb-${i}" style="display:none;"></div>
+    `;
+    quizDiv.appendChild(div);
+  });
+  quizDiv.innerHTML += `<div style="text-align:center; margin-top:30px;"><button class="btn" onclick="submitQuiz()">Submit Answers<span class="zh">提交答案</span></button></div>`;
+}
+
+function submitQuiz() {
+  if (submitted) return;
+  submitted = true;
+  let score = 0;
+  questions.forEach((item, i) => {
+    const opts = document.getElementById(`opts-${i}`);
+    const labels = opts.querySelectorAll('label');
+    const fb = document.getElementById(`fb-${i}`);
+    const chosen = userAnswers[i];
+    const right = item.options[item.answer];
+    if (chosen === item.answer) {
+      score++;
+      labels[chosen].classList.add('correct');
+      fb.innerHTML = `<strong>Correct!</strong> ${item.expl[0]}<span class="zh"><strong>正确！</strong>${item.expl[1]}</span>`;
+      fb.style.background = '#d1fae5';
+    } else {
+      if (chosen !== null) labels[chosen].classList.add('wrong');
+      labels[item.answer].classList.add('correct');
+      fb.innerHTML = `<strong>Incorrect.</strong> Correct answer: ${right[0]}. ${item.expl[0]}<span class="zh"><strong>错误。</strong>正确答案：${right[1]}。${item.expl[1]}</span>`;
+      fb.style.background = '#fee2e2';
+    }
+    fb.style.display = 'block';
+    // Disable further changes
+    opts.querySelectorAll('input').forEach(inp => inp.disabled = true);
+  });
+
+  const resultDiv = document.getElementById('result');
+  const passed = score >= 33;
+  resultDiv.innerHTML = `
+    <h2>Your Result<span class="zh">你的成绩</span></h2>
+    <div class="score ${passed ? 'pass' : 'fail'}">${score} / 35</div>
+    <p>${passed ? '✅ Pass! (Need 33 or more)<span class="zh">✅ 及格！（需要答对 33 题或以上）</span>' : '❌ Not yet — keep practising (need 33/35)<span class="zh">❌ 还没及格——继续练习（需要 35 题答对 33 题）</span>'}</p>
+    <button class="btn" onclick="location.reload()">Try Again (new order)<span class="zh">再练一次（题目重新排序）</span></button>
+  `;
+  resultDiv.style.display = 'block';
+  resultDiv.scrollIntoView({behavior:'smooth'});
+}
+
+renderQuiz();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function (err) {
+      console.warn('Service worker registration failed', err);
+    });
+  });
+}
+</script>
+</body>
+</html>

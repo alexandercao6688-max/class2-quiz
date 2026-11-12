@@ -1,8 +1,9 @@
-const CACHE_NAME = 'class2-quiz-v1';
+const CACHE_NAME = 'class2-quiz-v2';
 
 const ASSETS = [
   './',
   './index.html',
+  './zh.html',
   './class2-theory-quiz.html',
   './manifest.webmanifest',
   './sw.js',
